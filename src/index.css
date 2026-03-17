@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 230 15% 4%;
+    --foreground: 220 10% 85%;
+
+    --card: 230 15% 7%;
+    --card-foreground: 220 10% 85%;
+
+    --popover: 230 15% 7%;
+    --popover-foreground: 220 10% 85%;
+
+    --primary: 190 90% 50%;
+    --primary-foreground: 230 15% 4%;
+
+    --secondary: 260 80% 70%;
+    --secondary-foreground: 230 15% 4%;
+
+    --muted: 230 10% 14%;
+    --muted-foreground: 230 10% 40%;
+
+    --accent: 190 90% 50%;
+    --accent-foreground: 230 15% 4%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 100% / 0.06;
+    --input: 230 10% 14%;
+    --ring: 190 90% 50%;
+
+    --radius: 0.75rem;
+
+    --surface: 230 15% 7%;
+    --surface-elevated: 230 15% 10%;
+    --success: 150 80% 50%;
+    --warning: 40 90% 55%;
+
+    --sidebar-background: 230 15% 5%;
+    --sidebar-foreground: 220 10% 85%;
+    --sidebar-primary: 190 90% 50%;
+    --sidebar-primary-foreground: 230 15% 4%;
+    --sidebar-accent: 230 15% 10%;
+    --sidebar-accent-foreground: 220 10% 85%;
+    --sidebar-border: 0 0% 100% / 0.06;
+    --sidebar-ring: 190 90% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  ::selection {
+    background: hsl(190 90% 50% / 0.3);
+    color: hsl(220 10% 95%);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(230 15% 4%);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(230 10% 20%);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(190 90% 50% / 0.4);
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply backdrop-blur-md border rounded-lg;
+    background: hsl(230 15% 7% / 0.6);
+    border-color: hsl(0 0% 100% / 0.05);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 8px 16px -4px rgba(0,0,0,.4);
+  }
+
+  .glass-panel-hover {
+    @apply glass-panel transition-all duration-300;
+  }
+  .glass-panel-hover:hover {
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 8px 16px -4px rgba(0,0,0,.4), 0 0 20px hsl(190 90% 50% / 0.08);
+    border-color: hsl(190 90% 50% / 0.15);
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(190 90% 50% / 0.15), 0 0 60px hsl(190 90% 50% / 0.05);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 20px hsl(190 90% 50% / 0.4);
+  }
+
+  .dot-indicator {
+    @apply w-2 h-2 rounded-full;
+    background: hsl(var(--success));
+    box-shadow: 0 0 8px hsl(150 80% 50% / 0.6);
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .scanline {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(0 0% 0% / 0.015) 2px,
+      hsl(0 0% 0% / 0.015) 4px
+    );
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(0 0% 100% / 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(0 0% 100% / 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .window-title-bar {
+    @apply flex items-center gap-2 px-3 py-2 border-b;
+    border-color: hsl(0 0% 100% / 0.05);
+  }
+
+  .window-dot {
+    @apply w-2.5 h-2.5 rounded-full;
+  }
+
+  .terminal-prompt::before {
+    content: '>';
+    @apply text-primary mr-2;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
