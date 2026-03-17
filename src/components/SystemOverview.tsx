@@ -2,15 +2,59 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Wifi, Github, Linkedin, Mail, Download } from "lucide-react";
 
+const roles = [
+  "Frontend UI Engineer",
+  "React.js Developer",
+  "UI Systems Builder",
+  "Performance Engineer",
+];
+
+const useTypingEffect = (texts: string[], speed = 60, pause = 1800) => {
+  const [display, setDisplay] = useState("");
+  const [index, setIndex] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = texts[index];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!deleting && charIdx <= current.length) {
+      timeout = setTimeout(() => {
+        setDisplay(current.slice(0, charIdx));
+        setCharIdx((c) => c + 1);
+      }, speed);
+    } else if (!deleting && charIdx > current.length) {
+      timeout = setTimeout(() => setDeleting(true), pause);
+    } else if (deleting && charIdx >= 0) {
+      timeout = setTimeout(() => {
+        setDisplay(current.slice(0, charIdx));
+        setCharIdx((c) => c - 1);
+      }, speed / 2);
+    } else {
+      setDeleting(false);
+      setIndex((i) => (i + 1) % texts.length);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [charIdx, deleting, index, texts, speed, pause]);
+
+  return display;
+};
+
 const SystemOverview = () => {
   const [time, setTime] = useState(new Date());
+  const typedRole = useTypingEffect(roles);
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
 
-  const utc = time.toUTCString().slice(17, 25);
+  const utc = time.toLocaleTimeString("en-GB", {
+    hour: "2-digit", minute: "2-digit", second: "2-digit",
+    timeZone: "Asia/Kolkata", hour12: false,
+  });
   const date = time.toLocaleDateString("en-US", {
     weekday: "short",
     year: "numeric",
@@ -33,9 +77,12 @@ const SystemOverview = () => {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground text-balance">
-              Kavan Gami
+              <span className="glitch-wrapper" data-text="Kavan Gami">Kavan Gami</span>
             </h1>
-            <p className="font-mono text-sm text-primary mt-0.5">Frontend UI Engineer</p>
+            <p className="font-mono text-sm text-primary mt-0.5 h-5">
+              {typedRole}
+              <span className="animate-pulse">▋</span>
+            </p>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed max-w-md">
             I build fast, scalable, and performance-driven user interfaces. Not just UI — engineered frontend systems for real-world usage.
@@ -73,7 +120,7 @@ const SystemOverview = () => {
 
         <div className="text-right shrink-0 space-y-1">
           <div className="font-mono text-lg sm:text-xl text-foreground tabular-nums tracking-tight">{utc}</div>
-          <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">UTC</div>
+          <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">IST</div>
           <div className="font-mono text-[10px] text-muted-foreground">{date}</div>
         </div>
       </div>

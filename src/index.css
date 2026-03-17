@@ -158,3 +158,73 @@
     text-wrap: pretty;
   }
 }
+
+/* Mouse glow cursor */
+.cursor-glow {
+  pointer-events: none;
+  position: fixed;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
+  background: radial-gradient(circle, hsl(190 90% 50% / 0.12) 0%, transparent 70%);
+  mix-blend-mode: screen;
+}
+
+/* Panel hover glow */
+.glass-panel {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.glass-panel:hover {
+  box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 8px 16px -4px rgba(0,0,0,.4), 0 0 30px hsl(190 90% 50% / 0.07);
+  border-color: hsl(190 90% 50% / 0.12);
+}
+
+/* Glitch effect */
+@keyframes glitch-1 {
+  0%, 100% { clip-path: inset(0 0 95% 0); transform: translate(-2px, 0); }
+  20%       { clip-path: inset(30% 0 50% 0); transform: translate(2px, 0); }
+  40%       { clip-path: inset(60% 0 20% 0); transform: translate(-1px, 0); }
+  60%       { clip-path: inset(80% 0 5% 0);  transform: translate(1px, 0); }
+  80%       { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 0); }
+}
+@keyframes glitch-2 {
+  0%, 100% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 0); color: hsl(260 80% 70% / 0.8); }
+  25%       { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 0); }
+  50%       { clip-path: inset(70% 0 10% 0); transform: translate(1px, 0); color: hsl(190 90% 50% / 0.8); }
+  75%       { clip-path: inset(20% 0 60% 0); transform: translate(-1px, 0); }
+}
+@keyframes glitch-trigger {
+  0%, 89%, 100% { opacity: 0; }
+  90%, 99%      { opacity: 1; }
+}
+
+.glitch-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.glitch-wrapper::before,
+.glitch-wrapper::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: glitch-trigger 6s infinite;
+}
+.glitch-wrapper::before {
+  animation: glitch-trigger 6s infinite, glitch-1 0.4s infinite;
+  color: hsl(190 90% 60%);
+}
+.glitch-wrapper::after {
+  animation: glitch-trigger 6s infinite 0.05s, glitch-2 0.4s infinite 0.05s;
+  color: hsl(260 80% 70%);
+}
+
+/* Animated counter */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.counter-animate {
+  animation: count-up 0.5s ease forwards;
+}

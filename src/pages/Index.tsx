@@ -9,6 +9,13 @@ import SystemMetrics from "@/components/SystemMetrics";
 import ToolsBelt from "@/components/ToolsBelt";
 import Terminal from "@/components/Terminal";
 import CommandPalette from "@/components/CommandPalette";
+import ContactForm from "@/components/ContactForm";
+import Education from "@/components/Education";
+import Certifications from "@/components/Certifications";
+import GitHubStats from "@/components/GitHubStats";
+import MouseGlow from "@/components/MouseGlow";
+import StatsCounter from "@/components/StatsCounter";
+import StatusBar from "@/components/StatusBar";
 
 const Index = () => {
   const [booted, setBooted] = useState(false);
@@ -34,6 +41,7 @@ const Index = () => {
           transition={{ duration: 0.8, ease: [0.2, 0, 0, 1] }}
           className="min-h-screen bg-background relative"
         >
+          <MouseGlow />
           {/* Grid background */}
           <div className="fixed inset-0 grid-bg opacity-20 pointer-events-none" />
 
@@ -41,7 +49,7 @@ const Index = () => {
           <div className="scanline" />
 
           {/* Top bar */}
-          <header className="sticky top-0 z-30 backdrop-blur-lg bg-background/60 border-b border-border/30">
+          <header className="sticky top-0 z-30 backdrop-blur-lg bg-background/60">
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-success shadow-[0_0_8px_hsl(150_80%_50%_/_0.6)]" />
@@ -53,7 +61,7 @@ const Index = () => {
               <div className="flex items-center gap-3">
                 <CommandPalette onNavigate={handleNavigate} />
                 <nav className="hidden md:flex items-center gap-1 font-mono text-[10px]">
-                  {["about", "projects", "experience", "skills", "contact"].map((s) => (
+                  {["about", "projects", "experience", "skills", "education", "contact"].map((s) => (
                     <button
                       key={s}
                       onClick={() => handleNavigate(s)}
@@ -68,11 +76,14 @@ const Index = () => {
           </header>
 
           {/* Main dashboard grid */}
-          <main className="max-w-7xl mx-auto px-4 py-6 space-y-4">
+          <main className="max-w-7xl mx-auto px-4 py-6 pb-10 space-y-4">
             {/* Row 1: Overview */}
             <div ref={(el) => (sectionRefs.current["about"] = el)}>
               <SystemOverview />
             </div>
+
+            {/* Stats counters */}
+            <StatsCounter />
 
             {/* Row 2: Two columns on desktop */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -90,21 +101,30 @@ const Index = () => {
                   <SkillMatrix />
                 </div>
                 <SystemMetrics />
+                <GitHubStats />
                 <ToolsBelt />
+                <div ref={(el) => (sectionRefs.current["education"] = el)}>
+                  <Education />
+                </div>
+                <Certifications />
               </div>
             </div>
 
-            {/* Row 3: Terminal */}
-            <div ref={(el) => (sectionRefs.current["contact"] = el)}>
+            {/* Row 3: Contact + Terminal */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div ref={(el) => (sectionRefs.current["contact"] = el)}>
+                <ContactForm />
+              </div>
               <Terminal />
             </div>
 
             {/* Footer */}
-            <footer className="py-6 text-center font-mono text-[10px] text-muted-foreground/40 space-y-1">
+            <footer className="py-6 pb-10 text-center font-mono text-[10px] text-muted-foreground/40 space-y-1">
               <p>GROW X v4.2.1 — All systems nominal</p>
               <p>Built with React · TypeScript · Tailwind · Framer Motion</p>
             </footer>
           </main>
+          <StatusBar />
         </motion.div>
       )}
     </>
