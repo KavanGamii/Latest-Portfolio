@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Wifi, Github, Linkedin, Mail } from "lucide-react";
+import { MapPin, Wifi, Github, Linkedin, Mail, Download } from "lucide-react";
 
 const SystemOverview = () => {
   const [time, setTime] = useState(new Date());
@@ -59,6 +59,14 @@ const SystemOverview = () => {
             </a>
             <a href="mailto:kavangami13@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
               <Mail className="w-4 h-4" />
+            </a>
+            <a
+              href="/resume.pdf"
+              download="Kavan-Gami-Resume.pdf"
+              className="flex items-center gap-1.5 ml-2 px-2.5 py-1 rounded border border-primary/40 text-primary hover:bg-primary/10 transition-colors font-mono text-[10px] uppercase tracking-wider"
+            >
+              <Download className="w-3 h-3" />
+              Resume
             </a>
           </div>
         </div>
